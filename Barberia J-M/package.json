@@ -1,0 +1,21 @@
+{
+  "name": "barberia-jm-api",
+  "version": "1.0.0",
+  "description": "API REST de citas y usuarios para Barberia J-M",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "check": "node --check index.js && node --check src/config/db.js && node --check src/controllers/appointmentController.js && node --check src/controllers/userController.js && node --check src/middlewares/errorMiddleware.js && node --check src/models/Appointment.js && node --check src/models/User.js && node --check src/routes/appointmentRoutes.js && node --check src/routes/userRoutes.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "mongoose": "^9.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

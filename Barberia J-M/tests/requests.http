@@ -1,0 +1,61 @@
+@baseUrl = http://localhost:3000
+@appointmentId = REEMPLAZAR_POR_UN_ID_DE_CITA
+
+### Estado y endpoints disponibles
+GET {{baseUrl}}/
+Accept: application/json
+
+### Crear una cita (usar IDs reales de clientes y barberos de PEC02)
+POST {{baseUrl}}/api/appointments
+Content-Type: application/json
+
+{
+  "clienteId": "REEMPLAZAR_POR_ID_DE_CLIENTE",
+  "barberoId": "REEMPLAZAR_POR_ID_DE_BARBERO",
+  "servicio": {
+    "nombre": "Corte clasico",
+    "precio": 15,
+    "duracionMinutos": 30
+  },
+  "fecha": "2026-12-01T00:00:00.000Z",
+  "horaInicio": "10:00",
+  "estado": "pendiente",
+  "notas": "Prueba de API",
+  "creadoEn": "2026-11-25T00:00:00.000Z"
+}
+
+### Listar todas las citas
+GET {{baseUrl}}/api/appointments
+Accept: application/json
+
+### Obtener una cita por ID
+GET {{baseUrl}}/api/appointments/{{appointmentId}}
+Accept: application/json
+
+### Actualizar una cita por ID
+PUT {{baseUrl}}/api/appointments/{{appointmentId}}
+Content-Type: application/json
+
+{
+  "estado": "confirmada",
+  "notas": "Cita confirmada desde REST Client"
+}
+
+### Eliminar una cita por ID
+DELETE {{baseUrl}}/api/appointments/{{appointmentId}}
+
+### Consultar usuarios (clientes, barberos y administradores)
+GET {{baseUrl}}/api/users
+Accept: application/json
+
+### Obtener un usuario por ID
+GET {{baseUrl}}/api/users/REEMPLAZAR_POR_ID_DE_USUARIO
+Accept: application/json
+
+### Ruta inexistente: respuesta 404 en JSON
+GET {{baseUrl}}/api/ruta-inexistente
+Accept: application/json
+
+### ID mal formado: respuesta 400 en JSON
+GET {{baseUrl}}/api/appointments/id-invalido
+Accept: application/json

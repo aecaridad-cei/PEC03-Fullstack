@@ -1,0 +1,171 @@
+{
+  "info": {
+    "_postman_id": "c1ac6ef1-7f6a-4fdb-ae3f-4d024bb7c8b1",
+    "name": "Barberia J-M API",
+    "description": "Pruebas del CRUD de citas y consultas de usuarios. Configura baseUrl y sustituye los IDs por documentos reales de PEC02.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "appointmentId",
+      "value": ""
+    },
+    {
+      "key": "clientId",
+      "value": "REEMPLAZAR_POR_ID_DE_CLIENTE"
+    },
+    {
+      "key": "barberId",
+      "value": "REEMPLAZAR_POR_ID_DE_BARBERO"
+    },
+    {
+      "key": "userId",
+      "value": "REEMPLAZAR_POR_ID_DE_USUARIO"
+    }
+  ],
+  "item": [
+    {
+      "name": "Estado API",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/"
+      }
+    },
+    {
+      "name": "Citas",
+      "item": [
+        {
+          "name": "Crear cita",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Cita creada', function () {",
+                  "  pm.response.to.have.status(201);",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.success).to.eql(true);",
+                  "  pm.collectionVariables.set('appointmentId', body.data._id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": \"{{clientId}}\",\n  \"barberoId\": \"{{barberId}}\",\n  \"servicio\": {\n    \"nombre\": \"Corte clasico\",\n    \"precio\": 15,\n    \"duracionMinutos\": 30\n  },\n  \"fecha\": \"2026-12-01T00:00:00.000Z\",\n  \"horaInicio\": \"10:00\",\n  \"estado\": \"pendiente\",\n  \"notas\": \"Prueba de API\",\n  \"creadoEn\": \"2026-11-25T00:00:00.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/api/appointments"
+          }
+        },
+        {
+          "name": "Listar citas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments"
+          }
+        },
+        {
+          "name": "Obtener cita por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/{{appointmentId}}"
+          }
+        },
+        {
+          "name": "Actualizar cita",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"confirmada\",\n  \"notas\": \"Cita confirmada desde Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/api/appointments/{{appointmentId}}"
+          }
+        },
+        {
+          "name": "Eliminar cita",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/{{appointmentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/users"
+          }
+        },
+        {
+          "name": "Obtener usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/users/{{userId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Errores",
+      "item": [
+        {
+          "name": "Ruta inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/ruta-inexistente"
+          }
+        },
+        {
+          "name": "ID mal formado (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/id-invalido"
+          }
+        }
+      ]
+    }
+  ]
+}
